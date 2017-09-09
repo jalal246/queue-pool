@@ -14,18 +14,18 @@
 
 Why?
 ---
-Handle a group of chunks, process them in a pool. With a stream of incoming chunks there is a need to release them in same order they get in.
+If you handle a group of incoming streams of chunks, process them in a pool, there is a need to release them in same order they get in.
 
 Getting Started
 ---------------
 
 NPM
-```
+```sh
 npm install queue-pool
 ```
 
 CDN
-```
+```sh
 https://unpkg.com/queue-pool/dist/
 ```
 
@@ -40,19 +40,20 @@ const qpool = new QPool(options);
 
 `options`
 
-* `init` for custom initialize instead of empty string as default.
-* `maxIn` number, for max size allowed in. `Default` is 2.
+* `init` for custom initialize, instead of empty string as default.
+* `maxIn` a number, for max size allowed in pool. `Default` is 2.
 
 `Methods`
 
 * `get`
 * `length`
-* `elementsSize` array contains size of each element in the pool
-* `elementsLength` number of elements in
+* `elementsSize` an array contains size of each element in the pool.
+* `elementsLength` a number of elements in.
 * `flush`
 * `push`
 * `shift`
 * `process` push and adjust the size. It accepts callback as second argument.
+
   > In case you made several `push` calls passing the allowed number set in `maxIn`. It auto `shift` over elements and then `push` the new element. Using this method you guarantee that you are not passing the number of elements you set.
 
 Example:
