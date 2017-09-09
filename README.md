@@ -10,7 +10,7 @@
 
 > Pool of elements works as queue.
 
-`Queue-Pool` simple [FIFO](https://en.wikipedia.org/wiki/FIFO_and_LIFO_accounting#FIFO) implementation with push and shift prototypes like array. With ability to auto-adjust length.
+`Queue-Pool` simple [FIFO](https://en.wikipedia.org/wiki/FIFO_and_LIFO_accounting#FIFO) implementation with push and shift prototypes like array, with ability to auto-adjust length.
 
 Why?
 ---
