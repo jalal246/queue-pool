@@ -1,0 +1,73 @@
+{
+  "name": "text-pool",
+  "version": "0.0.1",
+  "description": "Pool of elements works as queue",
+  "main": "dist/qPool.cjs.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha  --compilers js:babel-core/register test",
+    "test:gen": "mocha  --compilers js:babel-core/register test/general.test.js -w",
+    "test:process": "mocha --compilers js:babel-core/register test/process.test.js -w",
+    "test:build": "mocha --compilers js:babel-core/register test-build",
+    "test:cov": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --compilers js:babel-core/register test",
+    "check:cov": "istanbul check-coverage --root coverage --statement 100 --branch 100 --function 100 --line 100",
+    "report:cov": "codecov",
+    "lint": "eslint .",
+    "prebuild": "rimraf dist",
+    "build": "npm-run-all --parallel build:**",
+    "build:es": "rollup --config --environment FORMAT:es",
+    "build:cjs": "rollup --config --environment FORMAT:cjs",
+    "build:umd": "rollup --config --sourcemap --environment FORMAT:umd",
+    "build:umd:min": "rollup --config --sourcemap --environment MINIFY,FORMAT:umd",
+    "prepublishOnly": "lint && npm test && npm run build && npm run test:build"
+  },
+  "devDependencies": {
+    "babel-core": "6.26.0",
+    "babel-plugin-external-helpers": "6.22.0",
+    "babel-preset-env": "1.6.0",
+    "babel-preset-stage-2": "6.24.1",
+    "chai": "4.1.0",
+    "codecov": "2.3.0",
+    "eslint": "4.3.0",
+    "eslint-config-airbnb-base": "11.3.0",
+    "eslint-plugin-import": "2.7.0",
+    "istanbul": "1.1.0-alpha.1",
+    "mocha": "3.4.2",
+    "npm-run-all": "4.1.1",
+    "rimraf": "2.6.1",
+    "rollup": "0.49.3",
+    "rollup-plugin-babel": "3.0.2",
+    "rollup-plugin-commonjs": "8.2.1",
+    "rollup-plugin-json": "2.3.0",
+    "rollup-plugin-node-resolve": "3.0.0",
+    "rollup-plugin-replace": "2.0.0",
+    "rollup-plugin-uglify": "2.0.1"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jimmy02020/queue-pool.git"
+  },
+  "keywords": [
+    "front end",
+    "backend",
+    "text",
+    "string",
+    "queue",
+    "pool",
+    "push",
+    "shift"
+  ],
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "author": "Jalal Maskoun<jimmy002020@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jimmy02020/queue-pool/issues"
+  },
+  "homepage": "https://github.com/Jimmy02020/queue-pool#readme"
+}
