@@ -1,5 +1,5 @@
 {
-  "name": "text-pool",
+  "name": "queue-pool",
   "version": "0.0.1",
   "description": "Pool of elements works as queue",
   "main": "dist/qPool.cjs.js",
@@ -21,7 +21,7 @@
     "build:cjs": "rollup --config --environment FORMAT:cjs",
     "build:umd": "rollup --config --sourcemap --environment FORMAT:umd",
     "build:umd:min": "rollup --config --sourcemap --environment MINIFY,FORMAT:umd",
-    "prepublishOnly": "lint && npm test && npm run build && npm run test:build"
+    "prepublishOnly": "npm test && npm run build && npm run test:build"
   },
   "devDependencies": {
     "babel-core": "6.26.0",
