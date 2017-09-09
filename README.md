@@ -96,3 +96,8 @@ License
 -------
 
 This project is licensed under the [MIT License](https://github.com/Jimmy02020/queue-pool/blob/master/LICENSE)
+
+Other Solutions
+---------------
+
+For border view you can take a look of [`queue`](https://github.com/jessetane/queue) as well.
