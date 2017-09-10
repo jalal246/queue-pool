@@ -2,6 +2,8 @@
 
 const DEFAULT_MAX_IN = 2;
 
+const isFn = x => typeof x === 'function';
+
 function QPool(opt) {
   if (!(this instanceof QPool)) {
     return new QPool(opt);
@@ -77,18 +79,16 @@ QPool.prototype.pop = function () {
   this.size.pop();
 };
 
-QPool.prototype.process = function (chunk, cb) {
-  if (this.elementsLength() < this.maxIn) this.push(chunk);
-  else if (this.elementsLength() === this.maxIn) {
-    this.push(chunk);
-    this.shift();
-  } else {
-    while (this.elementsLength() >= this.maxIn) {
-      this.shift();
-    }
-    this.push(chunk);
-  }
-  if (typeof cb === 'function') cb();
+QPool.prototype.settle = function (func) {
+  while (this.elementsLength() >= this.maxIn) func.apply(this);
+};
+
+QPool.prototype.process = function (chunk, type, cb) {
+  if (type === 'stack') this.settle(this.pop);
+  else this.settle(this.shift);
+  this.push(chunk);
+  if (isFn(cb)) cb(this.get());
+  else if (isFn(type)) type(this.get());
 };
 
 export default QPool;
