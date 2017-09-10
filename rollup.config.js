@@ -73,6 +73,7 @@ export default {
         ['stage-2'],
       ],
       plugins: ['external-helpers'],
+      comments: false,
     }),
     minify ? uglify() : null,
   ].filter(Boolean),
