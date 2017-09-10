@@ -38,15 +38,24 @@ QPool.prototype.flush = function () {
   this.size = [];
 };
 
-// enqueue, manual queue.
+// enqueue, to last.
 QPool.prototype.push = function (chunk) {
   // add chunk
   this.pool += chunk;
   // add chunk size
-  this.size.push(chunk.length); // why?
+  this.size.push(chunk.length);
 };
 
-// dequeue, manual queue.
+// enqueue, to first.
+QPool.prototype.unshift = function (chunk) {
+  // add chunk
+  this.pool = chunk + this.pool;
+  // add chunk size
+  this.size.unshift(chunk.length);
+};
+
+
+// dequeue, first
 QPool.prototype.shift = function () {
   // add chunk
   this.pool = this.pool.slice(
@@ -55,6 +64,17 @@ QPool.prototype.shift = function () {
   );
   // add chunk size
   this.size.shift();
+};
+
+// dequeue, last
+QPool.prototype.pop = function () {
+  // add chunk
+  this.pool = this.pool.slice(
+    0,
+    this.length() - this.size[this.elementsLength() - 1],
+  );
+  // add chunk size
+  this.size.pop();
 };
 
 QPool.prototype.process = function (chunk, cb) {
