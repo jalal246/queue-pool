@@ -1,7 +1,6 @@
 [![NPM](https://nodei.co/npm/queue-pool.png?downloads=true&downloadRank=true&stars=true)](https://nodei.co/npm/queue-pool/)
 
-
-[![Travis](https://img.shields.io/travis/rust-lang/rust.svg?style=flat-square)](travis-ci.org/Jimmy02020/queue-pool)
+[![Travis](https://img.shields.io/travis/rust-lang/rust.svg?style=flat-square)](https://travis-ci.org/Jimmy02020/queue-pool)
 [![Codecov](https://img.shields.io/codecov/c/github/codecov/example-python.svg?style=flat-square)](https://codecov.io/gh/Jimmy02020/queue-pool)
 [![module formats: umd, cjs, es](https://img.shields.io/badge/module%20formats-umd%2C%20cjs%2C%20es-green.svg?style=flat-square)](https://unpkg.com/queue-pool/dist/)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/Jimmy02020/queue-pool/blob/master/LICENSE)
