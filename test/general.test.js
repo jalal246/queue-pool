@@ -10,7 +10,7 @@ const q2 = ' fish ';
 const q3 = ' goat ';
 const q4 = ' sheep ';
 
-describe('QPool - test prototypes', () => {
+describe('QPool - general prototypes', () => {
   const tq = new QPool();
   it('push 4 inputs', () => {
     tq.push(`${q1}`);

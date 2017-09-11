@@ -6,13 +6,12 @@ import QPool from '../src/qPool';
 
 const expect = chai.expect;
 
-const q1 = '> 1 - one';
-const q2 = '> 22 - two';
-const q3 = '> 333 - three';
-const q4 = '> 44444 - four';
+const q1 = ' cat ';
+const q2 = ' fish ';
+const q3 = ' goat ';
+const q4 = ' sheep ';
 
-
-describe('qPool - test process', () => {
+describe('QPool - process prototype', () => {
   const tq = QPool({ maxIn: 3 });
   it('maintains the required size', () => {
     tq.process(q1);
@@ -21,16 +20,43 @@ describe('qPool - test process', () => {
     tq.process(q4);
     expect(tq.get()).to.be.equal(q2 + q3 + q4);
   });
-  it('shifts all over size elemets form pool', () => {
-    tq.flush();
-    // add 4 ones
-    tq.push(q1);
-    tq.push(q1);
-    tq.push(q1);
-    tq.push(q1);
-    // process with two
-    tq.process(q2, () => {
-      expect(tq.get()).to.be.equal(q1 + q1 + q2);
+  describe('queue as default', () => {
+    it('shifts all over size elemets form pool', (done) => {
+      context('using cb', () => {
+        tq.flush();
+        // add 4 ones
+        tq.push(q1);
+        tq.push(q2);
+        tq.push(q3);
+        tq.push(q4);
+        // process with two
+        tq.process(q1, (r) => {
+          expect(r).to.be.equal(q3 + q4 + q1);
+          done();
+        });
+      });
+    });
+  });
+  describe('using stack', () => {
+    it('shifts all over size elemets form pool', (done) => {
+      context('using cb', () => {
+        tq.flush();
+        // add 4 ones
+        tq.push(q1);
+        tq.push(q2);
+        tq.push(q3);
+        tq.push(q4);
+        // console.log(tq.get());
+        // process with two
+        tq.process(q3, 'stack', (r) => {
+          expect(r).to.be.equal(q1 + q2 + q3);
+          done();
+        });
+      });
+    });
+    it('tests without cb', () => {
+      tq.process(q4, 'stack');
+      expect(tq.get()).to.be.equal(q1 + q2 + q4);
     });
   });
 });
