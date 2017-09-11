@@ -1,6 +1,9 @@
 /* eslint func-names: ["error", "never"] */
 
-const DEFAULT_MAX_IN = 2;
+
+const isF = x => typeof x === 'function';
+
+const len = x => x.toString().length;
 
 function QPool(opt) {
   if (!(this instanceof QPool)) {
@@ -8,7 +11,8 @@ function QPool(opt) {
   }
   this.opts = opt || {};
   this.pool = this.opts.init || '';
-  this.maxIn = this.opts.maxIn || DEFAULT_MAX_IN;
+  // DEFAULT_MAX_IN = 2;
+  this.maxIn = this.opts.maxIn || 2;
   this.size = [];
 }
 
@@ -19,7 +23,7 @@ QPool.prototype.get = function () {
 
 // returns pool length
 QPool.prototype.length = function () {
-  return this.pool.length;
+  return len(this.pool);
 };
 
 // returns string sizes
@@ -38,37 +42,55 @@ QPool.prototype.flush = function () {
   this.size = [];
 };
 
-// enqueue, manual queue.
+// enqueue, to last.
 QPool.prototype.push = function (chunk) {
   // add chunk
   this.pool += chunk;
   // add chunk size
-  this.size.push(chunk.length); // why?
+  this.size.push(len(chunk));
 };
 
-// dequeue, manual queue.
+// enqueue, to first.
+QPool.prototype.unshift = function (chunk) {
+  // add chunk
+  this.pool = chunk + this.pool;
+  // add chunk size
+  this.size.unshift(len(chunk));
+};
+
+// dequeue, first
 QPool.prototype.shift = function () {
   // add chunk
   this.pool = this.pool.slice(
     this.size[0],
-    this.pool.toString().length,
+    this.length(),
   );
   // add chunk size
   this.size.shift();
 };
 
-QPool.prototype.process = function (chunk, cb) {
-  if (this.elementsLength() < this.maxIn) this.push(chunk);
-  else if (this.elementsLength() === this.maxIn) {
-    this.push(chunk);
-    this.shift();
-  } else {
-    while (this.elementsLength() >= this.maxIn) {
-      this.shift();
-    }
-    this.push(chunk);
-  }
-  if (typeof cb === 'function') cb();
+// dequeue, last
+QPool.prototype.pop = function () {
+  // add chunk
+  this.pool = this.pool.slice(
+    0,
+    this.length() - this.size[this.elementsLength() - 1],
+  );
+  // add chunk size
+  this.size.pop();
+};
+
+// clear over size elemets either shift or pop.
+QPool.prototype.clr = function (func) {
+  while (this.elementsLength() >= this.maxIn) func.apply(this);
+};
+
+QPool.prototype.process = function (chunk, type, cb) {
+  if (type === 'stack') this.clr(this.pop);
+  else this.clr(this.shift);
+  this.push(chunk);
+  if (isF(cb)) cb(this.get());
+  else if (isF(type)) type(this.get());
 };
 
 export default QPool;

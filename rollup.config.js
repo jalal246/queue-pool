@@ -4,6 +4,7 @@ import resolve from 'rollup-plugin-node-resolve';
 import json from 'rollup-plugin-json';
 import uglify from 'rollup-plugin-uglify';
 import replace from 'rollup-plugin-replace';
+import filesize from 'rollup-plugin-filesize';
 
 
 const input = 'src/qPool.js';
@@ -73,7 +74,9 @@ export default {
         ['stage-2'],
       ],
       plugins: ['external-helpers'],
+      comments: false,
     }),
     minify ? uglify() : null,
+    filesize(),
   ].filter(Boolean),
 };

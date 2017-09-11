@@ -5,37 +5,56 @@ import QPool from '../src/qPool';
 
 const expect = chai.expect;
 
-const q1 = ' Dr. suez  \n';
-const q2 = 'Peace cannot be kept by force; it can only be achieved by understanding ― Albert Einstein';
-const q3 = 'And O there are days in this life, worth life and worth death. ― Charles Dickens';
-const q4 = 'Sometimes it takes a good fall to really know where you stand ― Hayley Williams';
+const q1 = ' cat ';
+const q2 = ' fish ';
+const q3 = ' goat ';
+const q4 = ' sheep ';
 
-describe('QPool - test prototypes', () => {
+const qpool = new QPool();
+qpool.push('pigs, ');
+qpool.push('goats, ');
+qpool.push('sheep.');
+console.log(qpool.get()); // pigs, goats, sheep.
+qpool.shift();
+console.log(qpool.get()); // goats, sheep.
+qpool.pop();
+console.log(qpool.get()); // goats,
+qpool.unshift('sheep, ');
+console.log(qpool.get());
+console.log(qpool.elementsLength()); // 2
+console.log(qpool.elementsSize()); // [7 , 6]
+console.log(qpool.length()); // 13
+
+describe('QPool - general prototypes', () => {
   const tq = new QPool();
-  it('adds 4 strings using pushg', () => {
+  it('push 4 inputs', () => {
     tq.push(`${q1}`);
     tq.push(`${q2}`);
     tq.push(`${q3}`);
     tq.push(`${q4}`);
+    expect(tq.get()).to.be.equal(q1 + q2 + q3 + q4);
   });
-  it('tests queue prototype', () => {
+  it('shift 1 input', () => {
+    tq.shift();
+    expect(tq.get()).to.be.equal(q2 + q3 + q4);
+  });
+  it('pop 1 input', () => {
+    tq.pop();
+    expect(tq.get()).to.be.equal(q2 + q3);
+  });
+  it('unshift 1 input', () => {
+    tq.unshift(q1);
+    expect(tq.get()).to.be.equal(q1 + q2 + q3);
+  });
+  it('tests prototype elementsSize', () => {
     expect(tq.elementsSize()).to.have.ordered.members([
       q1.length,
       q2.length,
       q3.length,
-      q4.length,
     ]);
   });
-  it('shifts 3 string form queue using shift', () => {
-    tq.shift();
-    tq.shift();
-    tq.shift();
-  });
-  it('tests get prototype', () => {
-    expect(tq.get()).to.be.equal(q4);
-  });
-  it('tests in prototype', () => {
-    expect(tq.elementsLength()).to.be.equal(1);
+  it('tests prototype elementsLength', () => {
+    expect(tq.elementsLength()).to.be.equal(3);
   });
   it('tests flush prototype', () => {
     tq.flush();
