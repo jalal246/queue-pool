@@ -13,7 +13,7 @@
 Why?
 ---
 If you handle a group of incoming streams of chunks, process them in a pool, there is a need to release them in
-<a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a> or <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a>
+<a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a> or <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a> order.
 
 Getting Started
 ---------------
