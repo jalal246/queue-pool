@@ -1,7 +1,7 @@
 {
   "name": "queue-pool",
   "version": "0.0.1",
-  "description": "Pool of elements works as queue",
+  "description": "Pool works as queue or stack with implementation of major Array methods",
   "main": "dist/qPool.cjs.js",
   "directories": {
     "test": "test"
@@ -57,6 +57,7 @@
     "text",
     "string",
     "queue",
+    "stack",
     "pool",
     "push",
     "shift"
