@@ -10,6 +10,21 @@ const q2 = ' fish ';
 const q3 = ' goat ';
 const q4 = ' sheep ';
 
+const qpool = new QPool();
+qpool.push('pigs, ');
+qpool.push('goats, ');
+qpool.push('sheep.');
+console.log(qpool.get()); // pigs, goats, sheep.
+qpool.shift();
+console.log(qpool.get()); // goats, sheep.
+qpool.pop();
+console.log(qpool.get()); // goats,
+qpool.unshift('sheep, ');
+console.log(qpool.get());
+console.log(qpool.elementsLength()); // 2
+console.log(qpool.elementsSize()); // [7 , 6]
+console.log(qpool.length()); // 13
+
 describe('QPool - general prototypes', () => {
   const tq = new QPool();
   it('push 4 inputs', () => {
