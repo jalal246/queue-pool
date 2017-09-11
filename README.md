@@ -6,14 +6,12 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/Jimmy02020/queue-pool/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/Jimmy02020/queue-pool/pulls)
 
-
-> Pool of elements works as queue.
-
-`Queue-Pool` simple [FIFO](https://en.wikipedia.org/wiki/FIFO_and_LIFO_accounting#FIFO) implementation with push and shift prototypes like array, with ability to auto-adjust length.
+> Pool works as queue or stack with implementation of major Array methods.
 
 Why?
 ---
-If you handle a group of incoming streams of chunks, process them in a pool, there is a need to release them in same order they get in.
+If you handle a group of incoming streams of chunks, process them in a pool, there is a need to release them in
+<a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>/[queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type) order.
 
 Getting Started
 ---------------
@@ -49,9 +47,11 @@ const qpool = new QPool(options);
 * `elementsSize` an array contains size of each element in the pool.
 * `elementsLength` a number of elements in.
 * `flush`
+* `unshift`
 * `push`
 * `shift`
-* `process` push and adjust the size. It accepts callback as second argument.
+* `pop`
+* `process` push and adjust the size.
 
   > In case you made several `push` calls passing the allowed number set in `maxIn`. It auto `shift` over elements and then `push` the new element. Using this method you guarantee that you are not passing the number of elements you set.
 
@@ -73,7 +73,7 @@ qpool.elementsSize() // [7 , 6]
 qpool.length() // 12
 ```
 
-###### Using process:
+###### Using queue:
 
 ```javascript
 const qpool = new QPool({ maxIn: 5 });
@@ -82,7 +82,15 @@ qpool.get() // 0 1 2 3 4 5 6 7 8 9
 qpool.process("last-element");
 qpool.get() // 6 7 8 9 last-element
 ```
+###### Using stack:
 
+```javascript
+const qpool = new QPool({ maxIn: 5 });
+for (let i = 0; i < 10; i++) qpool.push(`${i} `);
+qpool.get() // 0 1 2 3 4 5 6 7 8 9
+qpool.process("last-element");
+qpool.get() // 6 7 8 9 last-element
+```
 
 Tests
 -----
