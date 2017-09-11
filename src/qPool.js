@@ -1,8 +1,9 @@
 /* eslint func-names: ["error", "never"] */
 
-const DEFAULT_MAX_IN = 2;
 
-const isFn = x => typeof x === 'function';
+const isF = x => typeof x === 'function';
+
+const len = x => x.toString().length;
 
 function QPool(opt) {
   if (!(this instanceof QPool)) {
@@ -10,7 +11,8 @@ function QPool(opt) {
   }
   this.opts = opt || {};
   this.pool = this.opts.init || '';
-  this.maxIn = this.opts.maxIn || DEFAULT_MAX_IN;
+  // DEFAULT_MAX_IN = 2;
+  this.maxIn = this.opts.maxIn || 2;
   this.size = [];
 }
 
@@ -21,7 +23,7 @@ QPool.prototype.get = function () {
 
 // returns pool length
 QPool.prototype.length = function () {
-  return this.pool.length;
+  return len(this.pool);
 };
 
 // returns string sizes
@@ -45,7 +47,7 @@ QPool.prototype.push = function (chunk) {
   // add chunk
   this.pool += chunk;
   // add chunk size
-  this.size.push(chunk.length);
+  this.size.push(len(chunk));
 };
 
 // enqueue, to first.
@@ -53,16 +55,15 @@ QPool.prototype.unshift = function (chunk) {
   // add chunk
   this.pool = chunk + this.pool;
   // add chunk size
-  this.size.unshift(chunk.length);
+  this.size.unshift(len(chunk));
 };
-
 
 // dequeue, first
 QPool.prototype.shift = function () {
   // add chunk
   this.pool = this.pool.slice(
     this.size[0],
-    this.pool.toString().length,
+    this.length(),
   );
   // add chunk size
   this.size.shift();
@@ -79,16 +80,17 @@ QPool.prototype.pop = function () {
   this.size.pop();
 };
 
-QPool.prototype.settle = function (func) {
+// clear over size elemets either shift or pop.
+QPool.prototype.clr = function (func) {
   while (this.elementsLength() >= this.maxIn) func.apply(this);
 };
 
 QPool.prototype.process = function (chunk, type, cb) {
-  if (type === 'stack') this.settle(this.pop);
-  else this.settle(this.shift);
+  if (type === 'stack') this.clr(this.pop);
+  else this.clr(this.shift);
   this.push(chunk);
-  if (isFn(cb)) cb(this.get());
-  else if (isFn(type)) type(this.get());
+  if (isF(cb)) cb(this.get());
+  else if (isF(type)) type(this.get());
 };
 
 export default QPool;
