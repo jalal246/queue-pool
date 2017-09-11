@@ -6,12 +6,14 @@
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg?style=flat-square)](https://github.com/Jimmy02020/queue-pool/blob/master/LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](https://github.com/Jimmy02020/queue-pool/pulls)
 
-> Pool works as queue or stack with implementation of major Array methods.
+> Pool works as queue or stack.
+
+`Queue-Pool` Is pool of elements, with implementation of major Array methods. And ability to auto-adjust length.
 
 Why?
 ---
 If you handle a group of incoming streams of chunks, process them in a pool, there is a need to release them in
-<a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a>/[queue](https://en.wikipedia.org/wiki/Queue_(abstract_data_type) order.
+<a href="https://en.wikipedia.org/wiki/Stack_(abstract_data_type)">stack</a> or <a href="https://en.wikipedia.org/wiki/Queue_(abstract_data_type)">queue</a>
 
 Getting Started
 ---------------
@@ -53,7 +55,13 @@ const qpool = new QPool(options);
 * `pop`
 * `process` push and adjust the size.
 
-  > In case you made several `push` calls passing the allowed number set in `maxIn`. It auto `shift` over elements and then `push` the new element. Using this method you guarantee that you are not passing the number of elements you set.
+  `process(input, type, cb)`
+  - type: stack or queue. `Default` is queue.
+  - cb(get): optional.
+
+  > In case you made several `push` calls passing the allowed number set in `maxIn`.
+    It auto `shift` in case of queue/ `pop` in case of stack over elements and then `push` the new one.
+    Using this method you guarantee that you are not passing the number of elements you set.
 
 Example:
 -------
@@ -88,8 +96,9 @@ qpool.get() // 6 7 8 9 last-element
 const qpool = new QPool({ maxIn: 5 });
 for (let i = 0; i < 10; i++) qpool.push(`${i} `);
 qpool.get() // 0 1 2 3 4 5 6 7 8 9
-qpool.process("last-element");
-qpool.get() // 6 7 8 9 last-element
+qpool.process("last-element", 'stack', (get)=>{
+  console.log(get); //  0, 1, 2, 3 last-element
+});
 ```
 
 Tests
