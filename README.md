@@ -59,9 +59,11 @@ const qpool = new QPool(options);
   - type: stack or queue. `Default` is queue.
   - cb(get): optional.
 
+
   > In case you made several `push` calls passing the allowed number set in `maxIn`.
     It auto `shift` in case of queue/ `pop` in case of stack over elements and then `push` the new one.
     Using this method you guarantee that you are not passing the number of elements you set.
+
 
 Example:
 -------
@@ -70,15 +72,15 @@ Example:
 
 ```javascript
 const qpool = new QPool();
-qpool.push('pigs, ');
-qpool.push('goats, ');
-qpool.push('sheep.');
-qpool.get() // pigs, goats, sheep.
-qpool.shift();
-qpool.get() // goats, sheep.
+qpool.push('pigs, '); // pigs,
+qpool.push('goats, '); // pigs, goats,
+qpool.push('sheep.'); // pigs, goats, sheep.
+qpool.shift(); // goats, sheep.
+qpool.pop(); // goats,
+qpool.unshift('sheep, '); // sheep, goats,
 qpool.elementsLength() // 2
-qpool.elementsSize() // [7 , 6]
-qpool.length() // 12
+qpool.elementsSize()  // [7 , 7]
+qpool.length() // 14
 ```
 
 ###### Using queue:
@@ -90,7 +92,7 @@ qpool.get() // 0 1 2 3 4 5 6 7 8 9
 qpool.process("last-element");
 qpool.get() // 6 7 8 9 last-element
 ```
-###### Using stack:
+###### Using stack with callback:
 
 ```javascript
 const qpool = new QPool({ maxIn: 5 });
