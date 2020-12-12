@@ -1,17 +1,16 @@
 /* eslint func-names: ["error", "never"] */
 
+const isF = (x) => typeof x === "function";
 
-const isF = x => typeof x === 'function';
-
-const len = x => x.toString().length;
+const len = (x) => x.toString().length;
 
 function QPool(opt) {
   if (!(this instanceof QPool)) {
     return new QPool(opt);
   }
+
   this.opts = opt || {};
-  this.pool = this.opts.init || '';
-  // DEFAULT_MAX_IN = 2;
+  this.pool = this.opts.init || "";
   this.maxIn = this.opts.maxIn || 2;
   this.size = [];
 }
@@ -36,9 +35,8 @@ QPool.prototype.elementsLength = function () {
   return this.size.length;
 };
 
-
 QPool.prototype.flush = function () {
-  this.pool = '';
+  this.pool = "";
   this.size = [];
 };
 
@@ -61,10 +59,7 @@ QPool.prototype.unshift = function (chunk) {
 // dequeue, first
 QPool.prototype.shift = function () {
   // add chunk
-  this.pool = this.pool.slice(
-    this.size[0],
-    this.length(),
-  );
+  this.pool = this.pool.slice(this.size[0], this.length());
   // add chunk size
   this.size.shift();
 };
@@ -74,7 +69,7 @@ QPool.prototype.pop = function () {
   // add chunk
   this.pool = this.pool.slice(
     0,
-    this.length() - this.size[this.elementsLength() - 1],
+    this.length() - this.size[this.elementsLength() - 1]
   );
   // add chunk size
   this.size.pop();
@@ -86,11 +81,11 @@ QPool.prototype.clr = function (func) {
 };
 
 QPool.prototype.process = function (chunk, type, cb) {
-  if (type === 'stack') this.clr(this.pop);
+  if (type === "stack") this.clr(this.pop);
   else this.clr(this.shift);
   this.push(chunk);
   if (isF(cb)) cb(this.get());
   else if (isF(type)) type(this.get());
 };
 
-export default QPool;
+module.exports = QPool;
