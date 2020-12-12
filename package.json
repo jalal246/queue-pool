@@ -1,6 +1,6 @@
 {
   "name": "queue-pool",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "main": "src/qPool.js",
   "repository": "https://github.com/jalal246/queue-pool.git",
   "author": "Jalal Maskoun <jimmy002020@gmail.com>",
